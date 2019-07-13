@@ -45,7 +45,7 @@ def get_form_elements_by_name(driver, elemname):
     return elem
 
 
-def get_form_elements_by_xpath(driver, elemxpath):
+def get_form_elements_by_xpath(driver: object, elemxpath: object) -> object:
     elem = driver.find_element_by_xpath(elemxpath)
     return elem
 
@@ -139,19 +139,15 @@ def main():
     for line in writable_lines:
 
         hour = int(line[1][:2])
-        minutes = int(line[1][2:4])
+        minutes = int(line[1][3:5])
         msg = line[2]
 
-        print(line)
-        person_sel = get_form_elements_by_xpath(driver, person_sel_xp)
-        person_sel_el = Select(person_sel)
-
         # A is other person, default is opponent.
-        if line[0] == 'B':
-            person_sel_el.select_by_value('me')
-        elif line[0] == 'A':
-            person_sel_el.select_by_value('you')
-            
+        if line[0] == "B":
+            person_sel = driver.find_element_by_xpath(person_sel_xp)
+            elem = Select(person_sel)
+            elem.select_by_value('me')
+
         # Add the comment
         comment_el = get_form_elements_by_xpath(driver, comment_xp)
         comment_el.send_keys(msg)
@@ -176,6 +172,7 @@ def main():
 
         get_form_elements_by_id(driver, "checkimg").click()
         time.sleep(3)
+    get_form_elements_by_xpath(driver, "/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[2]/button").click()
         #driver.implicitly_wait(10)
         #driver.quit()
 
