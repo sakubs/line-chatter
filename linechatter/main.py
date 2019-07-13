@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 import os
+import time
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
 
 
 def connectChrome():
@@ -119,12 +122,19 @@ def main():
     comment_el = get_form_elements_by_xpath(driver, comment_xp)
     comment_el.send_keys(line[2])
 
-    # Set time
-    time_el = get_form_elements_by_xpath(driver, time_xp)
-    time_el.send_keys(line[1])
+    # Set time default time is 10:00 AM
+    actions = ActionChains(driver)
+    time_el = get_form_elements_by_xpath(driver, time_xp).click()
+    actions.send_keys(Keys.ARROW_DOWN*4)
+    actions.send_keys(Keys.TAB)
+    actions.send_keys(Keys.ARROW_DOWN*2)
+    actions.send_keys(Keys.TAB*2)
+    actions.perform()
+    # process the time for entering into the field.
 
     submit_btn = get_form_elements_by_id(driver, "checkimg").click()
-
+    #driver.implicitly_wait(10)
+    #driver.quit()
 
 if __name__ == "__main__":
     main()
