@@ -38,6 +38,6 @@ def get_form_elements_by_name(driver, elemname):
     return elem
 
 
-def get_form_elements_by_xpath(driver, elemxpath)
+def get_form_elements_by_xpath(driver, elemxpath):
     elem = driver.find_element_by_xpath(elemxpath)
     return elem
