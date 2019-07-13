@@ -86,6 +86,36 @@ def get_writable_lines(script_fpath):
     return writable_lines
 
 
+def press_down(actions, n):
+    actions.send_keys(Keys.ARROW_DOWN * n)
+
+
+def press_up(actions, n):
+    actions.send_keys(Keys.ARROW_UP * n)
+
+
+def press_tab(actions, n):
+    actions.send_keys(Keys.TAB * n)
+
+
+def set_hours(actions, h):
+    if h < 13:
+        press_down(actions, 10 - (h - 12))
+
+    elif h > 10:
+        press_up(actions, h - 10)
+
+    elif h < 9:
+        press_down(actions, 10 - h)
+
+
+def set_minutes(actions, m):
+    if m <= 30:
+        press_up(actions, m)
+    elif m > 30:
+        press_down(actions, m)
+
+
 def main():
     # Variable assignments
     start_url = "http://sp.mojimaru.com/line/lineD.php?frame=line_long&backcolor=7292C1"
@@ -102,39 +132,53 @@ def main():
     fill_linechat_form1(driver, start_url, img_sel_btn_id, avatar_img_path, name_input_name, friend_name)
 
     # Next page, we enter the actual chat.
-    print(driver.current_url)
 
     # Read the script
     writable_lines = get_writable_lines(script_fpath)
 
-    print(writable_lines)
-    #for line in writable_lines:
-    line = writable_lines[0]
-    print(line)
-    person_sel = get_form_elements_by_xpath(driver, person_sel_xp)
-    person_sel_el = Select(person_sel)
+    for line in writable_lines:
 
-    # A is other person, default is opponent.
-    if [line[0] == 'B']:
-        person_sel_el.select_by_value('me')
+        hour = int(line[1][:2])
+        minutes = int(line[1][2:4])
+        msg = line[2]
 
-    # Add the comment
-    comment_el = get_form_elements_by_xpath(driver, comment_xp)
-    comment_el.send_keys(line[2])
+        print(line)
+        person_sel = get_form_elements_by_xpath(driver, person_sel_xp)
+        person_sel_el = Select(person_sel)
 
-    # Set time default time is 10:00 AM
-    actions = ActionChains(driver)
-    time_el = get_form_elements_by_xpath(driver, time_xp).click()
-    actions.send_keys(Keys.ARROW_DOWN*4)
-    actions.send_keys(Keys.TAB)
-    actions.send_keys(Keys.ARROW_DOWN*2)
-    actions.send_keys(Keys.TAB*2)
-    actions.perform()
-    # process the time for entering into the field.
+        # A is other person, default is opponent.
+        if line[0] == 'B':
+            person_sel_el.select_by_value('me')
+        elif line[0] == 'A':
+            person_sel_el.select_by_value('you')
+            
+        # Add the comment
+        comment_el = get_form_elements_by_xpath(driver, comment_xp)
+        comment_el.send_keys(msg)
 
-    submit_btn = get_form_elements_by_id(driver, "checkimg").click()
-    #driver.implicitly_wait(10)
-    #driver.quit()
+        # Need to calculate time via keystrokes from 10:00 AM
+        actions = ActionChains(driver)
+        get_form_elements_by_xpath(driver, time_xp).click()
+
+        # Set hour
+        set_hours(actions, hour)
+
+        # Move to minutes field.
+        press_tab(actions, 1)
+        set_minutes(actions, minutes)
+
+        # Set AM/PM
+        if hour > 12:
+            press_tab(actions, 1)
+            press_down(actions, 1)
+
+        actions.perform()
+
+        get_form_elements_by_id(driver, "checkimg").click()
+        time.sleep(3)
+        #driver.implicitly_wait(10)
+        #driver.quit()
+
 
 if __name__ == "__main__":
     main()
