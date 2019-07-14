@@ -43,4 +43,10 @@ if ($uploadOk == 0) {
         echo "Sorry, there was an error uploading your file.";
     }
 }
+
+$fp = fopen("formdata.txt", "w");
+fwrite($fp, "");
+$savestring = $name;
+fwrite($fp, $savestring);
+fclose($fp);
 ?>
