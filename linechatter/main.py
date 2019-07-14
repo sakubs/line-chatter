@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import os
+import sys
 import time
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
@@ -36,16 +36,35 @@ def connect_firefox_webdriver():
 
 
 def get_form_elements_by_id(driver, elemid):
+    """
+    Wrapper for find_element_by_id function from webdriver.
+    :param driver:
+    :param elemid:
+    :return: if found, it returns the element object.
+    """
     elem = driver.find_element_by_id(elemid)
     return elem
 
 
 def get_form_elements_by_name(driver, elemname):
+    """
+    Wrapper for find_element_by_name function from webdriver.
+
+    :param driver:
+    :param elemname:
+    :return: if found, it returns the element object.
+    """
     elem = driver.find_element_by_name(elemname)
     return elem
 
 
-def get_form_elements_by_xpath(driver: object, elemxpath: object) -> object:
+def get_form_elements_by_xpath(driver, elemxpath):
+    """
+    Wrapper for find_element_by_xpath function from webdriver.
+    :param driver:
+    :param elemxpath:
+    :return: if found, it returns the element object.
+    """
     elem = driver.find_element_by_xpath(elemxpath)
     return elem
 
@@ -117,13 +136,20 @@ def set_minutes(actions, m):
 
 
 def main():
+    """
+    """
     # Variable assignments
     start_url = "http://sp.mojimaru.com/line/lineD.php?frame=line_long&backcolor=7292C1"
     avatar_img_path = "~/Desktop/car.jpg"
-    friend_name = "バカ"
+    try:
+        friend_name = sys.argv[1]
+    except IndexError:
+        print("you forgot to enter a name for the chat.")
+        return
+
     img_sel_btn_id = "file1"
     name_input_name = "name"
-    script_fpath = "script.txt"
+    script_fpath = "resources/script.txt"
     person_sel_xp = "/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[1]/div[1]/select"
     comment_xp = "/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[1]/div[2]/textarea"
     time_xp = "/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[1]/div[7]/input"
