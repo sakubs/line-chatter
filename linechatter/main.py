@@ -123,11 +123,12 @@ def main():
     friend_name = "バカ"
     img_sel_btn_id = "file1"
     name_input_name = "name"
-    script_fpath = "script"
+    script_fpath = "script.txt"
     person_sel_xp = "/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[1]/div[1]/select"
     comment_xp = "/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[1]/div[2]/textarea"
     time_xp = "/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[1]/div[7]/input"
 
+    # Need to convert from nasty docx to txt to process
     driver = connect_firefox_webdriver()
     fill_linechat_form1(driver, start_url, img_sel_btn_id, avatar_img_path, name_input_name, friend_name)
 
@@ -143,7 +144,7 @@ def main():
         msg = line[2]
 
         # A is other person, default is opponent.
-        if line[0] == "B":
+        if line[0] == "Ｂ":
             person_sel = driver.find_element_by_xpath(person_sel_xp)
             elem = Select(person_sel)
             elem.select_by_value('me')
@@ -172,6 +173,7 @@ def main():
 
         get_form_elements_by_id(driver, "checkimg").click()
         time.sleep(3)
+
     get_form_elements_by_xpath(driver, "/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[2]/button").click()
         #driver.implicitly_wait(10)
         #driver.quit()
