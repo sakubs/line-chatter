@@ -29,6 +29,15 @@ INSERT_PIC:
 INSERT_PIC = 2
 
 
+CLOSING = 3
+
+TRIPLE_HYPHEN = "ーーー"
+RIGHT_PERS = 'A'
+LEFT_PERS = 'B'
+SONO_GOU = 'その後'
+MIDNIGHT = '00:00'
+
+
 def connectChrome():
     """
     This function will setup and create a Chrome webbrowser driver.
@@ -154,7 +163,7 @@ def insert_every_n(raw_string, group=13, char='\n'):
     return char.join(raw_string[i:i+group] for i in range(0, len(raw_string), group))
 
 
-def check_input_codes(msg):
+def check_input_codes(input_line):
     """
     Checks for codes in the input
 
@@ -163,8 +172,12 @@ def check_input_codes(msg):
         - 0 for no codes
         - A_LITTLE_LATER
     """
-    if str(msg) == "ーーー":
-        return A_LITTLE_LATER
+    # if the length is not three, we know it is not a typical input
+    if len(input_line) < 3:
+        if str(input_line[0]) == TRIPLE_HYPHEN:
+            return A_LITTLE_LATER
+        elif str(input_line[0]) == SONO_GOU:
+            return 0
     else:
         return 0
 
@@ -200,29 +213,41 @@ def main():
     writable_lines = get_writable_lines(script_fpath)
 
     # This variable is a placeholder for when codes require combining lines together.
-    msg_before = ""
+    line_before = []
     flag_set = None
 
     for line in writable_lines:
+        # Check the message is three elements long, otherwise it is not typical input.
+        if len(line) < 3:
+            # check for the three dash special code.
+            if str(line[0].strip()) == TRIPLE_HYPHEN:
+                # for this case we need to append this message to the next message and set the time for 00:00
+                flag_set = A_LITTLE_LATER
+                continue
+
+            # Check for flags
+            if flag_set is not None:
+                if flag_set == A_LITTLE_LATER:
+                    # Set the current line for right person, 00:00, and append the line before.
+                    line = [RIGHT_PERS, MIDNIGHT, '\n'.join([TRIPLE_HYPHEN, SONO_GOU])]
+                    flag_set = CLOSING
+
+                elif flag_set == CLOSING:
+                    msg = line[0]
+                    line = [RIGHT_PERS, '10:00', msg]
+
+        # First parse the message because
+        raw_msg = line[2].strip()
+        msg = set_line_len(raw_msg)
+        missed_call = False
+        if msg == '不在着信':
+            missed_call = True
+
+        print('Raw Line: {}'.format(line))
+        print('formatted Message: {}'.format(msg))
 
         hour = int(line[1][:2])
         minutes = int(line[1][3:5])
-        raw_msg = line[2].strip()
-        msg = set_line_len(raw_msg)
-
-        if flag_set == A_LITTLE_LATER:
-            new_msg = [msg_before, msg]
-            msg = '\n'.join(new_msg)
-            flag_set = None
-            print("Combined Message: {}".format(msg))
-
-        input_code = check_input_codes(msg)
-        if input_code > 0:
-            if input_code == A_LITTLE_LATER:
-                msg_before = msg
-                flag_set = A_LITTLE_LATER
-                continue
-        print('Raw Line: {}'.format(line))
 
         try:
             # A is other person, default is opponent.
@@ -230,11 +255,22 @@ def main():
             time.sleep(1)
 
             # Add the comment
-            post_msg(comment_xp, driver, msg)
-            time.sleep(1)
+            if missed_call == False:
+                post_msg(comment_xp, driver, msg)
+                # Uncheck auto line lengthbox
+                len_box = get_form_elements_by_xpath(
+                    driver,
+                    '//*[@id="create hidden"]/div/div/div[1]/form[1]/div[9]/div/div/label/input').click()
 
-            # Uncheck auto line lengthbox
-            len_box = get_form_elements_by_xpath(driver, '//*[@id="create hidden"]/div/div/div[1]/form[1]/div[9]/div/div/label/input').click()
+            else:
+                print("Caught it!")
+                mc_btn_xpath = '/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[1]/div[5]/div/div[1]/button'
+                mc_btn = get_form_elements_by_xpath(driver, mc_btn_xpath).click()
+                phone_txt_xpath = '/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[1]/div[6]/input'
+                phone_txt = get_form_elements_by_xpath(driver, phone_txt_xpath)
+                phone_txt.send_keys(msg)
+                missed_call = False
+
             time.sleep(1)
 
             # Need to calculate time via keystrokes from 10:00 AM
@@ -248,8 +284,7 @@ def main():
             driver.implicitly_wait(10)
 
     get_form_elements_by_xpath(driver, "/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[2]/button").click()
-
-        #driver.quit()
+    print("Done")
 
 
 def set_line_len(raw_msg):
@@ -282,7 +317,7 @@ def set_msg_time(driver, hour, minutes, msg, time_xp):
 
 
 def select_sender(driver, line, person_sel_xp):
-    if line[0] == 'A':
+    if line[0] == LEFT_PERS:
         person_sel = driver.find_element_by_xpath(person_sel_xp)
         elem = Select(person_sel)
         elem.select_by_value('you')
