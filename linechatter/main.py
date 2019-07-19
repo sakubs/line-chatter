@@ -1,12 +1,27 @@
 # -*- coding: utf-8 -*-
 import sys
 import time
+import flask
+from selenium.common.exceptions import NoSuchElementException
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
+
+
+"""
+A_LITTLE_LATER:
+    Code meaning, combine 'ーーー' with the following line and send as one message
+"""
+A_LITTLE_LATER = 1
+
+"""
+INSERT_PIC:
+    Code meaning, send a picture message
+"""
+INSERT_PIC = 2
 
 
 def connectChrome():
@@ -16,7 +31,6 @@ def connectChrome():
     :return: webdriver.Crome object
     """
     options = ChromeOptions()
-    options.add_argument("--headless")
     chromeDriverPath = "/usr/bin/chromedriver"
     driver = webdriver.Chrome(chromeDriverPath, chrome_options=options)
     return driver
@@ -29,8 +43,7 @@ def connect_firefox_webdriver():
     :return: webdriver.Firefox object
     """
     options = FirefoxOptions()
-    options.add_argument("--headless")
-    driver = webdriver.Firefox(firefox_options=options)
+    driver = webdriver.Firefox(options=options)
     print("Firefox Headless Browser Invoked")
     return driver
 
@@ -129,10 +142,26 @@ def set_hours(actions, h):
 
 
 def set_minutes(actions, m):
-    if m <= 30:
-        press_up(actions, m)
-    elif m > 30:
-        press_down(actions, m)
+    press_up(actions, m)
+
+
+def insert_every_n(raw_string, group=13, char='\n'):
+    return char.join(raw_string[i:i+group] for i in range(0, len(raw_string), group))
+
+
+def check_input_codes(msg):
+    """
+    Checks for codes in the input
+
+    :param msg:
+    :return:
+        - 0 for no codes
+        - A_LITTLE_LATER
+    """
+    if str(msg) == "ーーー":
+        return A_LITTLE_LATER
+    else:
+        return 0
 
 
 def main():
@@ -140,7 +169,8 @@ def main():
     """
     # Variable assignments
     start_url = "http://sp.mojimaru.com/line/lineD.php?frame=line_long&backcolor=7292C1"
-    avatar_img_path = "~/Desktop/car.jpg"
+    avatar_img_path = "~/Downloads/handbag.jpg"
+
     try:
         friend_name = sys.argv[1]
     except IndexError:
@@ -150,7 +180,7 @@ def main():
     img_sel_btn_id = "file1"
     name_input_name = "name"
     script_fpath = "resources/script.txt"
-    person_sel_xp = "/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[1]/div[1]/select"
+    person_sel_xp = '//*[@id="create hidden"]/div/div/div[1]/form[1]/div[1]/select'
     comment_xp = "/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[1]/div[2]/textarea"
     time_xp = "/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[1]/div[7]/input"
 
@@ -163,46 +193,98 @@ def main():
     # Read the script
     writable_lines = get_writable_lines(script_fpath)
 
+    # This variable is a placeholder for when codes require combining lines together.
+    msg_before = ""
+    flag_set = None
+
     for line in writable_lines:
 
         hour = int(line[1][:2])
         minutes = int(line[1][3:5])
-        msg = line[2]
+        raw_msg = line[2].strip()
+        msg = set_line_len(raw_msg)
 
-        # A is other person, default is opponent.
-        if line[0] == "Ｂ":
-            person_sel = driver.find_element_by_xpath(person_sel_xp)
-            elem = Select(person_sel)
-            elem.select_by_value('me')
+        if flag_set == A_LITTLE_LATER:
+            new_msg = [msg_before, msg]
+            msg = '\n'.join(new_msg)
+            flag_set = None
+            print("Combined Message: {}".format(msg))
 
-        # Add the comment
-        comment_el = get_form_elements_by_xpath(driver, comment_xp)
-        comment_el.send_keys(msg)
+        input_code = check_input_codes(msg)
+        if input_code > 0:
+            if input_code == A_LITTLE_LATER:
+                msg_before = msg
+                flag_set = A_LITTLE_LATER
+                continue
+        print('Raw Line: {}'.format(line))
 
-        # Need to calculate time via keystrokes from 10:00 AM
-        actions = ActionChains(driver)
-        get_form_elements_by_xpath(driver, time_xp).click()
+        try:
+            # A is other person, default is opponent.
+            select_sender(driver, line, person_sel_xp)
+            time.sleep(1)
 
-        # Set hour
-        set_hours(actions, hour)
+            # Add the comment
+            post_msg(comment_xp, driver, msg)
+            time.sleep(1)
 
-        # Move to minutes field.
-        press_tab(actions, 1)
-        set_minutes(actions, minutes)
+            # Uncheck auto line lengthbox
+            len_box = get_form_elements_by_xpath(driver, '//*[@id="create hidden"]/div/div/div[1]/form[1]/div[9]/div/div/label/input').click()
+            time.sleep(1)
 
-        # Set AM/PM
-        if hour > 12:
-            press_tab(actions, 1)
-            press_down(actions, 1)
+            # Need to calculate time via keystrokes from 10:00 AM
+            set_msg_time(driver, hour, minutes, msg, time_xp)
+            time.sleep(1)
 
-        actions.perform()
-
-        get_form_elements_by_id(driver, "checkimg").click()
-        time.sleep(3)
+            get_form_elements_by_id(driver, "checkimg").click()
+        except NoSuchElementException:
+            print('Problem found at: {}'.format(msg))
+            print('check page loaded properly')
+            driver.implicitly_wait(10)
 
     get_form_elements_by_xpath(driver, "/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[2]/button").click()
-        #driver.implicitly_wait(10)
+
         #driver.quit()
+
+
+def set_line_len(raw_msg):
+    msg = ""
+    if len(raw_msg) > 13:
+        msg = insert_every_n(raw_msg)
+    else:
+        msg = raw_msg
+    return msg
+
+
+def post_msg(comment_xp, driver, msg):
+    comment_el = get_form_elements_by_xpath(driver, comment_xp)
+    comment_el.send_keys(msg)
+
+
+def set_msg_time(driver, hour, minutes, msg, time_xp):
+    actions = ActionChains(driver)
+    get_form_elements_by_xpath(driver, time_xp).click()
+    # Set hour
+    set_hours(actions, hour)
+    # Move to minutes field.
+    press_tab(actions, 1)
+    set_minutes(actions, minutes)
+    # Set AM/PM
+    if hour > 12:
+        press_tab(actions, 1)
+        press_down(actions, 1)
+    actions.perform()
+
+
+def select_sender(driver, line, person_sel_xp):
+    if line[0] == 'A':
+        person_sel = driver.find_element_by_xpath(person_sel_xp)
+        elem = Select(person_sel)
+        elem.select_by_value('you')
+
+    else:
+        person_sel = driver.find_element_by_xpath(person_sel_xp)
+        elem = Select(person_sel)
+        elem.select_by_value('me')
 
 
 if __name__ == "__main__":
