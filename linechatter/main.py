@@ -2,6 +2,8 @@
 import sys
 import time
 import os
+import shutil
+import urllib3
 import flask
 from selenium.common.exceptions import NoSuchElementException
 from selenium import webdriver
@@ -32,8 +34,8 @@ INSERT_PIC = 2
 CLOSING = 3
 
 TRIPLE_HYPHEN = "ーーー"
-RIGHT_PERS = 'A'
-LEFT_PERS = 'B'
+RIGHT_PERS = 'B'
+LEFT_PERS = 'A'
 SONO_GOU = 'その後'
 MIDNIGHT = '00:00'
 
@@ -217,6 +219,8 @@ def main():
     flag_set = None
 
     for line in writable_lines:
+        time.sleep(5)
+
         # Check the message is three elements long, otherwise it is not typical input.
         if len(line) < 3:
             # check for the three dash special code.
@@ -228,8 +232,8 @@ def main():
             # Check for flags
             if flag_set is not None:
                 if flag_set == A_LITTLE_LATER:
-                    # Set the current line for right person, 00:00, and append the line before.
-                    line = [RIGHT_PERS, MIDNIGHT, '\n'.join([TRIPLE_HYPHEN, SONO_GOU])]
+                    # Set the current line for right person, 10:00, and append the line before.
+                    line = [RIGHT_PERS, '10:00', '\n'.join([TRIPLE_HYPHEN, SONO_GOU])]
                     flag_set = CLOSING
 
                 elif flag_set == CLOSING:
@@ -281,10 +285,25 @@ def main():
         except NoSuchElementException:
             print('Problem found at: {}'.format(msg))
             print('check page loaded properly')
-            driver.implicitly_wait(10)
+            driver.back()
+            time.sleep(2)
+            final_img = driver.find_element_by_xpath('//*[@id="saveimg"]')
+            src = final_img.get_attribute('src')
+            http = urllib3.PoolManager()
+            with http.request('GET', src, preload_content=False) as r, open('chatout.jpg', 'wb') as out_file:
+                shutil.copyfileobj(r, out_file)
+            driver.quit()
 
     get_form_elements_by_xpath(driver, "/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[2]/button").click()
     print("Done")
+
+    # Download the chat jpeg
+    final_img = driver.find_element_by_xpath('//*[@id="saveimg"]')
+    src = final_img.get_attribute('src')
+    http = urllib3.PoolManager()
+    with http.request('GET', src, preload_content=False) as r, open('chatout.jpg', 'wb') as out_file:
+        shutil.copyfileobj(r, out_file)
+    driver.quit()
 
 
 def set_line_len(raw_msg):
