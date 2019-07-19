@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import time
+import os
 import flask
 from selenium.common.exceptions import NoSuchElementException
 from selenium import webdriver
@@ -10,6 +11,10 @@ from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 
+"""
+Where this script is executing from.
+"""
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 """
 A_LITTLE_LATER:
@@ -167,9 +172,10 @@ def check_input_codes(msg):
 def main():
     """
     """
+    print(basedir)
     # Variable assignments
     start_url = "http://sp.mojimaru.com/line/lineD.php?frame=line_long&backcolor=7292C1"
-    avatar_img_path = "~/Downloads/handbag.jpg"
+    avatar_img_path = os.path.join(basedir, "resources/profile.jpg")
 
     try:
         friend_name = sys.argv[1]
@@ -179,7 +185,7 @@ def main():
 
     img_sel_btn_id = "file1"
     name_input_name = "name"
-    script_fpath = "resources/script.txt"
+    script_fpath = os.path.join(basedir, "resources/script.txt")
     person_sel_xp = '//*[@id="create hidden"]/div/div/div[1]/form[1]/div[1]/select'
     comment_xp = "/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[1]/div[2]/textarea"
     time_xp = "/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[1]/div[7]/input"
