@@ -40,18 +40,6 @@ SONO_GOU = 'その後'
 MIDNIGHT = '00:00'
 
 
-def connectChrome():
-    """
-    This function will setup and create a Chrome webbrowser driver.
-
-    :return: webdriver.Crome object
-    """
-    options = ChromeOptions()
-    chromeDriverPath = "/usr/bin/chromedriver"
-    driver = webdriver.Chrome(chromeDriverPath, chrome_options=options)
-    return driver
-
-
 def connect_firefox_webdriver():
     """
     This function will setup and create a Firefox webbrowser driver.
