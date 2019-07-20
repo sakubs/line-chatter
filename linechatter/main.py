@@ -40,6 +40,12 @@ SONO_GOU = 'その後'
 MISSED_CALL = '不在着信'
 MIDNIGHT = '00:00'
 
+img_sel_btn_id = "file1"
+name_input_name = "name"
+person_sel_xp = '//*[@id="create hidden"]/div/div/div[1]/form[1]/div[1]/select'
+comment_xp = "/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[1]/div[2]/textarea"
+time_xp = "/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[1]/div[7]/input"
+
 
 def connect_firefox_webdriver():
     """
@@ -202,6 +208,10 @@ def main():
         print("you forgot to enter a name for the chat.")
         return
 
+    # Load firefox and fill out chat start form.
+    driver = connect_firefox_webdriver()
+    fill_linechat_form1(driver, start_url, img_sel_btn_id, avatar_img_path, name_input_name, friend_name)
+
     # Read the script
     script_fpath = os.path.join(BASEDIR, "resources/script.txt")
     raw_lines = get_writable_lines(script_fpath)
@@ -210,6 +220,7 @@ def main():
 
     # The script contains certain codes for special cases.
     while current_line < script_lines:
+
         # Check for regular message line
         if is_line_msg(raw_lines[current_line]):
             print(raw_lines[current_line])
@@ -222,6 +233,7 @@ def main():
                 current_line += 1
                 continue
 
+            # Send regular text
             current_line += 1
 
         elif line_startswith(raw_lines[current_line], TRIPLE_HYPHEN):
@@ -235,7 +247,6 @@ def main():
 
             # Increment to pass over the next line
             current_line += 1
-
 
         elif A_LITTLE_LATER in raw_lines[current_line][0]:
             # Look out for a little later message
@@ -259,14 +270,8 @@ def main():
             current_line += 1
 
     return
-    img_sel_btn_id = "file1"
-    name_input_name = "name"
-    person_sel_xp = '//*[@id="create hidden"]/div/div/div[1]/form[1]/div[1]/select'
-    comment_xp = "/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[1]/div[2]/textarea"
-    time_xp = "/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[1]/div[7]/input"
 
-    driver = connect_firefox_webdriver()
-    fill_linechat_form1(driver, start_url, img_sel_btn_id, avatar_img_path, name_input_name, friend_name)
+
 
     # Next page, we enter the actual chat.
 
