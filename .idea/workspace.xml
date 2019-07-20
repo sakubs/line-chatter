@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="18534e4f-0336-415a-a074-578cdcc0a05d" name="Default Changelist" comment="Really not using the chrome webdriver. Removing from code.">
-      <change afterPath="$PROJECT_DIR$/linechatter/constants.py" afterDir="false" />
+    <list default="true" id="18534e4f-0336-415a-a074-578cdcc0a05d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/linechatter/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/linechatter/main.py" afterDir="false" />
     </list>
@@ -18,8 +17,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/linechatter/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="104">
-              <caret line="194" column="24" selection-start-line="194" selection-start-column="24" selection-end-line="194" selection-end-column="24" />
+            <state relative-caret-position="225">
+              <caret line="224" column="29" lean-forward="true" selection-start-line="224" selection-start-column="29" selection-end-line="224" selection-end-column="29" />
               <folding>
                 <element signature="e#24#34#0" expanded="true" />
               </folding>
@@ -267,7 +266,21 @@
       <option name="project" value="LOCAL" />
       <updated>1563601035289</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Detection of left person lines is working">
+      <created>1563603559442</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1563603559442</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Checking in before adding combine --- message.">
+      <created>1563605034497</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1563605034497</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -279,8 +292,8 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32880434" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.43032786" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.3989071" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.43032786" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3989071" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -344,7 +357,9 @@
     <MESSAGE value="Got it all working with missed call feature." />
     <MESSAGE value="Added five second delay to allow the page to load before beginning input on the form, and that seems to prevent the random first element not being found errors." />
     <MESSAGE value="Really not using the chrome webdriver. Removing from code." />
-    <option name="LAST_COMMIT_MESSAGE" value="Really not using the chrome webdriver. Removing from code." />
+    <MESSAGE value="Detection of left person lines is working" />
+    <MESSAGE value="Checking in before adding combine --- message." />
+    <option name="LAST_COMMIT_MESSAGE" value="Checking in before adding combine --- message." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -424,8 +439,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/linechatter/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="194" column="24" selection-start-line="194" selection-start-column="24" selection-end-line="194" selection-end-column="24" />
+        <state relative-caret-position="225">
+          <caret line="224" column="29" lean-forward="true" selection-start-line="224" selection-start-column="29" selection-end-line="224" selection-end-column="29" />
           <folding>
             <element signature="e#24#34#0" expanded="true" />
           </folding>

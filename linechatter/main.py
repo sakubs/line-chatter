@@ -211,15 +211,18 @@ def main():
     while current_line < script_lines:
         # Check for regular message line
         if is_line_msg(raw_lines[current_line]):
-            print("Line is message")
-            print(current_line)
-
+            print(raw_lines[current_line])
 
         elif line_startswith(raw_lines[current_line], TRIPLE_HYPHEN):
             # Combine this line with the next line into one message posted by right person at 10:00
-            print(TRIPLE_HYPHEN)
-
-
+            # Everything after this is closing. Right person, 10:00
+            newline = [
+                RIGHT_PERS,
+                '10:00',
+                '\n'.join([raw_lines[current_line][0].strip(), raw_lines[current_line + 1][0].strip()])]
+            print(newline)
+            # Increment to pass over the next line
+            current_line += 1
 
         current_line += 1
     return
