@@ -172,6 +172,22 @@ def check_input_codes(input_line):
         return 0
 
 
+def is_line_msg(line):
+    if line_startswith(line, LEFT_PERS):
+        return True
+    elif line_startswith(line, RIGHT_PERS):
+        return True
+    else:
+        return False
+
+
+def line_startswith(line, cmpstr):
+    if line[0].strip().startswith(cmpstr):
+        return True
+    else:
+        return False
+
+
 def main():
     """
     """
@@ -191,11 +207,20 @@ def main():
     script_lines = len(raw_lines)
     current_line = 0
 
-    # The script contains certain codes for special cases, process the file before creating the chat.
+    # The script contains certain codes for special cases.
     while current_line < script_lines:
-        if raw_lines[current_line][0].strip().startswith(LEFT_PERS):
-            print(raw_lines[current_line][0])
+        # Check for regular message line
+        if is_line_msg(raw_lines[current_line]):
+            print("Line is message")
             print(current_line)
+
+
+        elif line_startswith(raw_lines[current_line], TRIPLE_HYPHEN):
+            # Combine this line with the next line into one message posted by right person at 10:00
+            print(TRIPLE_HYPHEN)
+
+
+
         current_line += 1
     return
     img_sel_btn_id = "file1"
