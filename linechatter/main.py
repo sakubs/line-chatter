@@ -1,20 +1,15 @@
 # -*- coding: utf-8 -*-
-import sys
-import time
 import os
 import shutil
+import sys
+import time
+
 import urllib3
-import flask
-from selenium.common.exceptions import NoSuchElementException
 from selenium import webdriver
-from selenium.webdriver.support.ui import Select
-from selenium.webdriver.firefox.options import Options as FirefoxOptions
-from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
+from selenium.webdriver.support.ui import Select
 
 """
 Where this script is executing from.
@@ -25,7 +20,7 @@ BASEDIR = os.path.abspath(os.path.dirname(__file__))
 A_LITTLE_LATER:
     Code meaning, combine 'ーーー' with the following line and send as one message
 """
-A_LITTLE_LATER = '(数時間後)'
+A_LITTLE_LATER = '数時間後'
 
 """
 INSERT_PIC:
@@ -200,7 +195,7 @@ def line_startswith(line, cmpstr):
 
 def select_sender(driver, line):
 
-    if LEFT_PERS in line[0].strip() == True:
+    if line[0].strip() == LEFT_PERS:
         person_sel = driver.find_element_by_xpath(PERSON_SEL_XPATH)
         driver.execute_script("arguments[0].style.display = 'block';", person_sel)
         elem = Select(person_sel)
@@ -248,10 +243,45 @@ def display_missed_call(driver):
     phone_txt_xpath = '/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[1]/div[6]/input'
     phone_txt = get_form_elements_by_xpath(driver, phone_txt_xpath)
     phone_txt.send_keys(MISSED_CALL)
+    return
 
 
 def message_send(driver):
     get_form_elements_by_id(driver, "checkimg").click()
+    return
+
+
+def click_complete(driver):
+    get_form_elements_by_xpath(
+        driver,
+        "/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[2]/button").click()
+    return
+
+
+def download_chat_image(driver):
+    final_img = driver.find_element_by_xpath('//*[@id="saveimg"]')
+    src = final_img.get_attribute('src')
+    http = urllib3.PoolManager()
+    with http.request('GET', src, preload_content=False) as r, open('chatout.jpg', 'wb') as out_file:
+        shutil.copyfileobj(r, out_file)
+
+
+def send_regular_message(driver, line):
+    # Uncheck auto line lengthbox
+    get_form_elements_by_xpath(
+        driver,
+        '//*[@id="create hidden"]/div/div/div[1]/form[1]/div[9]/div/div/label/input').click()
+    select_sender(driver, line)
+    set_msg_time(driver, line)
+    msg = set_line_len(line[2].strip())
+    post_msg(driver, msg)
+    return
+
+
+def post_msg(driver, msg):
+    comment_el = get_form_elements_by_xpath(driver, comment_xp)
+    comment_el.send_keys(msg)
+    return
 
 
 def main():
@@ -277,20 +307,24 @@ def main():
     script_lines = len(raw_lines)
     current_line = 0
 
-    # The script contains certain codes for special cases.
+    # The script contains certain codes for special cases. Using a while loop allows reformatting message lines
+    # and sending them back up to this first message sending case.
     while current_line < script_lines:
         # Magic number to wait for page load without issues.
         time.sleep(5)
+        print(raw_lines[current_line])
+        print("Processing line {} of {}".format(current_line, script_lines))
+        time_left = (script_lines - current_line) * 5
+        print("Approximate time to completion: {} seconds".format(time_left))
 
         # Check for regular message line
         if is_line_msg(raw_lines[current_line]):
-            print(raw_lines[current_line])
-            print(raw_lines[current_line][2])
             # Look for missed call message
             if MISSED_CALL in raw_lines[current_line][2]:
 
                 # Send as a missed call instead of text
                 display_missed_call(driver)
+                set_msg_time(driver, raw_lines[current_line])
                 message_send(driver)
                 current_line += 1
                 continue
@@ -309,140 +343,31 @@ def main():
                 RIGHT_PERS,
                 '10:00',
                 '\n'.join([raw_lines[current_line][0].strip(), raw_lines[current_line + 1][0].strip()])]
-            print(newline)
+            raw_lines[current_line + 1] = newline
 
             # Increment to pass over the next line
             current_line += 1
 
         elif A_LITTLE_LATER in raw_lines[current_line][0]:
-            # Look out for a little later message
+            # Look out for a little later message, modify message but don't increment counter.
             newline = [
                 RIGHT_PERS,
                 MIDNIGHT,
                 raw_lines[current_line][0].strip()]
-            print(newline)
-
-            current_line += 1
+            raw_lines[current_line] = newline
 
         else:
-            # If this case is found, must be a closing message
-            print(current_line)
+            # If this case is found, must be a closing message, modify the message but don't increment
             newline = [
                 RIGHT_PERS,
                 '10:00',
                 raw_lines[current_line][0].strip()
             ]
-            print(newline)
-            current_line += 1
+            raw_lines[current_line] = newline
 
-    return
-
-
-
-    # Next page, we enter the actual chat.
-
-    # This variable is a placeholder for when codes require combining lines together.
-    line_before = []
-    flag_set = None
-    '''
-    for line in writable_lines:
-        time.sleep(5)
-
-        # Check the message is three elements long, otherwise it is not typical input.
-        if len(line) < 3:
-            # check for the three dash special code.
-            if str(line[0].strip()) == TRIPLE_HYPHEN:
-                # for this case we need to append this message to the next message and set the time for 00:00
-                flag_set = A_LITTLE_LATER
-                continue
-
-            # Check for flags
-            if flag_set is not None:
-                if flag_set == A_LITTLE_LATER:
-                    # Set the current line for right person, 10:00, and append the line before.
-                    line = [RIGHT_PERS, '10:00', '\n'.join([TRIPLE_HYPHEN, SONO_GOU])]
-                    flag_set = CLOSING
-
-                elif flag_set == CLOSING:
-                    msg = line[0]
-                    line = [RIGHT_PERS, '10:00', msg]
-
-        # First parse the message because
-        raw_msg = line[2].strip()
-        msg = set_line_len(raw_msg)
-        missed_call = False
-        if msg == '不在着信':
-            missed_call = True
-
-        print('Raw Line: {}'.format(line))
-        print('formatted Message: {}'.format(msg))
-
-        hour = int(line[1][:2])
-        minutes = int(line[1][3:5])
-
-        try:
-            # A is other person, default is opponent.
-            select_sender(driver, line, person_sel_xp)
-            time.sleep(1)
-
-            # Add the comment
-            if missed_call == False:
-                post_msg(comment_xp, driver, msg)
-                # Uncheck auto line lengthbox
-                len_box = get_form_elements_by_xpath(
-                    driver,
-                    '//*[@id="create hidden"]/div/div/div[1]/form[1]/div[9]/div/div/label/input').click()
-
-            else:
-                print("Caught it!")
-                mc_btn_xpath = '/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[1]/div[5]/div/div[1]/button'
-                mc_btn = get_form_elements_by_xpath(driver, mc_btn_xpath).click()
-                phone_txt_xpath = '/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[1]/div[6]/input'
-                phone_txt = get_form_elements_by_xpath(driver, phone_txt_xpath)
-                phone_txt.send_keys(msg)
-                missed_call = False
-
-            time.sleep(1)
-
-            # Need to calculate time via keystrokes from 10:00 AM
-            set_msg_time(driver, hour, minutes, msg, time_xp)
-            time.sleep(1)
-
-            get_form_elements_by_id(driver, "checkimg").click()
-        except NoSuchElementException:
-            print('Problem found at: {}'.format(msg))
-            print('check page loaded properly')
-            driver.back()
-            time.sleep(2)
-            final_img = driver.find_element_by_xpath('//*[@id="saveimg"]')
-            src = final_img.get_attribute('src')
-            http = urllib3.PoolManager()
-            with http.request('GET', src, preload_content=False) as r, open('chatout.jpg', 'wb') as out_file:
-                shutil.copyfileobj(r, out_file)
-            driver.quit()
-
-    get_form_elements_by_xpath(driver, "/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[2]/button").click()
+    click_complete(driver)
+    download_chat_image(driver)
     print("Done")
-
-    # Download the chat jpeg
-    final_img = driver.find_element_by_xpath('//*[@id="saveimg"]')
-    src = final_img.get_attribute('src')
-    http = urllib3.PoolManager()
-    with http.request('GET', src, preload_content=False) as r, open('chatout.jpg', 'wb') as out_file:
-        shutil.copyfileobj(r, out_file)
-    driver.quit()'''
-
-
-def send_regular_message(driver, line):
-    select_sender(driver, line)
-    set_msg_time(driver, line)
-    cooked_line = set_line_len(line[2])
-    post_msg(driver, cooked_line)
-
-
-def post_msg(driver, msg):
-    comment_el = get_form_elements_by_xpath(driver, comment_xp)
-    comment_el.send_keys(msg)
 
 
 if __name__ == "__main__":
