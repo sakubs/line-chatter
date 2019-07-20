@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="18534e4f-0336-415a-a074-578cdcc0a05d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/linechatter/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/linechatter/main.py" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.idea/shelf/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,18 +16,13 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/linechatter/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="321" column="53" lean-forward="true" selection-start-line="321" selection-start-column="53" selection-end-line="321" selection-end-column="53" />
+            <state relative-caret-position="795">
+              <caret line="359" column="47" selection-start-line="359" selection-start-column="47" selection-end-line="359" selection-end-column="47" />
               <folding>
-                <element signature="e#24#34#0" expanded="true" />
+                <element signature="e#24#33#0" expanded="true" />
               </folding>
             </state>
           </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/linechatter/resources/script.txt">
-          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
@@ -80,22 +74,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope">
-        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
-          <expand>
-            <path>
-              <item name="line-chatter" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="~/Dev/line-chatter" type="442cc68d:ScopeViewTreeModel$RootNode" />
-            </path>
-            <path>
-              <item name="line-chatter" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="~/Dev/line-chatter" type="442cc68d:ScopeViewTreeModel$RootNode" />
-              <item name="linechatter" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -325,7 +304,14 @@
       <option name="project" value="LOCAL" />
       <updated>1563615152319</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Everything is tested and working.">
+      <created>1563624963188</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1563624963188</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -411,7 +397,9 @@
     <MESSAGE value="Message time selection is back in place." />
     <MESSAGE value="Corrected strange auto-refactor." />
     <MESSAGE value="Got missed call and text sending working." />
-    <option name="LAST_COMMIT_MESSAGE" value="Got missed call and text sending working." />
+    <MESSAGE value="Everything is tested and working." />
+    <option name="LAST_COMMIT_MESSAGE" value="Everything is tested and working." />
+    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -492,10 +480,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/linechatter/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="321" column="53" lean-forward="true" selection-start-line="321" selection-start-column="53" selection-end-line="321" selection-end-column="53" />
+        <state relative-caret-position="795">
+          <caret line="359" column="47" selection-start-line="359" selection-start-column="47" selection-end-line="359" selection-end-column="47" />
           <folding>
-            <element signature="e#24#34#0" expanded="true" />
+            <element signature="e#24#33#0" expanded="true" />
           </folding>
         </state>
       </provider>
