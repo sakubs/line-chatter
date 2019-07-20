@@ -16,7 +16,7 @@ from selenium.webdriver.common.keys import Keys
 """
 Where this script is executing from.
 """
-basedir = os.path.abspath(os.path.dirname(__file__))
+BASEDIR = os.path.abspath(os.path.dirname(__file__))
 
 """
 A_LITTLE_LATER:
@@ -175,10 +175,9 @@ def check_input_codes(input_line):
 def main():
     """
     """
-    print(basedir)
     # Variable assignments
     start_url = "http://sp.mojimaru.com/line/lineD.php?frame=line_long&backcolor=7292C1"
-    avatar_img_path = os.path.join(basedir, "resources/profile.jpg")
+    avatar_img_path = os.path.join(BASEDIR, "resources/profile.jpg")
 
     try:
         friend_name = sys.argv[1]
@@ -186,26 +185,34 @@ def main():
         print("you forgot to enter a name for the chat.")
         return
 
+    # Read the script
+    script_fpath = os.path.join(BASEDIR, "resources/script.txt")
+    raw_lines = get_writable_lines(script_fpath)
+    script_lines = len(raw_lines)
+    current_line = 0
+
+    # The script contains certain codes for special cases, process the file before creating the chat.
+    while current_line < script_lines:
+        if raw_lines[current_line][0].strip().startswith(LEFT_PERS):
+            print(raw_lines[current_line][0])
+            print(current_line)
+        current_line += 1
+    return
     img_sel_btn_id = "file1"
     name_input_name = "name"
-    script_fpath = os.path.join(basedir, "resources/script.txt")
     person_sel_xp = '//*[@id="create hidden"]/div/div/div[1]/form[1]/div[1]/select'
     comment_xp = "/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[1]/div[2]/textarea"
     time_xp = "/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[1]/div[7]/input"
 
-    # Need to convert from nasty docx to txt to process
     driver = connect_firefox_webdriver()
     fill_linechat_form1(driver, start_url, img_sel_btn_id, avatar_img_path, name_input_name, friend_name)
 
     # Next page, we enter the actual chat.
 
-    # Read the script
-    writable_lines = get_writable_lines(script_fpath)
-
     # This variable is a placeholder for when codes require combining lines together.
     line_before = []
     flag_set = None
-
+    '''
     for line in writable_lines:
         time.sleep(5)
 
@@ -291,7 +298,7 @@ def main():
     http = urllib3.PoolManager()
     with http.request('GET', src, preload_content=False) as r, open('chatout.jpg', 'wb') as out_file:
         shutil.copyfileobj(r, out_file)
-    driver.quit()
+    driver.quit()'''
 
 
 def set_line_len(raw_msg):

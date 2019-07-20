@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="18534e4f-0336-415a-a074-578cdcc0a05d" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/line-chatter.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/line-chatter.iml" afterDir="false" />
+    <list default="true" id="18534e4f-0336-415a-a074-578cdcc0a05d" name="Default Changelist" comment="Really not using the chrome webdriver. Removing from code.">
+      <change afterPath="$PROJECT_DIR$/linechatter/constants.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/linechatter/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/linechatter/main.py" afterDir="false" />
     </list>
@@ -18,13 +18,23 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/linechatter/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="89">
-              <caret line="42" selection-start-line="42" selection-end-line="42" />
+            <state relative-caret-position="104">
+              <caret line="194" column="24" selection-start-line="194" selection-start-column="24" selection-end-line="194" selection-end-column="24" />
               <folding>
                 <element signature="e#24#34#0" expanded="true" />
               </folding>
             </state>
           </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/linechatter/resources/script.txt">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/linechatter/constants.py">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
@@ -33,6 +43,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTML File" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
@@ -58,6 +69,7 @@
         <option value="$PROJECT_DIR$/linechatter/templates/index.html" />
         <option value="$PROJECT_DIR$/linechatter/resources/script-orig.txt" />
         <option value="$PROJECT_DIR$/linechatter/resources/script.txt" />
+        <option value="$PROJECT_DIR$/linechatter/constants.py" />
         <option value="$PROJECT_DIR$/linechatter/main.py" />
       </list>
     </option>
@@ -107,6 +119,13 @@
               <item name="linechatter" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="line-chatter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="line-chatter" type="462c0819:PsiDirectoryNode" />
+              <item name="linechatter" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="義母" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -120,10 +139,10 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
+    <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/linechatter/resources" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
+    <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/linechatter/resources" />
     </key>
   </component>
@@ -241,20 +260,27 @@
       <option name="project" value="LOCAL" />
       <updated>1563577462612</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Really not using the chrome webdriver. Removing from code.">
+      <created>1563601035289</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1563601035289</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="50" y="27" width="1390" height="873" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24981685" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24981685" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32880434" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.43032786" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39945653" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.43032786" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.3989071" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -317,7 +343,8 @@
     <MESSAGE value="Fixed the script not finding the path to the resources folder." />
     <MESSAGE value="Got it all working with missed call feature." />
     <MESSAGE value="Added five second delay to allow the page to load before beginning input on the form, and that seems to prevent the random first element not being found errors." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added five second delay to allow the page to load before beginning input on the form, and that seems to prevent the random first element not being found errors." />
+    <MESSAGE value="Really not using the chrome webdriver. Removing from code." />
+    <option name="LAST_COMMIT_MESSAGE" value="Really not using the chrome webdriver. Removing from code." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -382,7 +409,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/linechatter/chatout.jpg" />
     <entry file="file://$PROJECT_DIR$/linechatter/resources/profile.jpg" />
-    <entry file="file://$PROJECT_DIR$/linechatter/resources/script.txt" />
     <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/selenium/webdriver/common/service.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="39">
@@ -390,10 +416,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/linechatter/constants.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/linechatter/resources/script.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/linechatter/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="89">
-          <caret line="42" selection-start-line="42" selection-end-line="42" />
+        <state relative-caret-position="104">
+          <caret line="194" column="24" selection-start-line="194" selection-start-column="24" selection-end-line="194" selection-end-column="24" />
           <folding>
             <element signature="e#24#34#0" expanded="true" />
           </folding>
