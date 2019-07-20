@@ -216,10 +216,13 @@ def main():
 
             # Look for missed call message
             if MISSED_CALL in raw_lines[current_line][2]:
-                # Show missed call instead of text
                 print(MISSED_CALL)
+
+                # Send as a missed call instead of text
                 current_line += 1
                 continue
+
+            current_line += 1
 
         elif line_startswith(raw_lines[current_line], TRIPLE_HYPHEN):
             # Combine this line with the next line into one message posted by right person at 10:00
@@ -233,15 +236,28 @@ def main():
             # Increment to pass over the next line
             current_line += 1
 
+
         elif A_LITTLE_LATER in raw_lines[current_line][0]:
             # Look out for a little later message
             newline = [
                 RIGHT_PERS,
                 MIDNIGHT,
-                raw_lines[current_line][0]]
+                raw_lines[current_line][0].strip()]
             print(newline)
 
-        current_line += 1
+            current_line += 1
+
+        else:
+            # If this case is found, must be a closing message
+            print(current_line)
+            newline = [
+                RIGHT_PERS,
+                '10:00',
+                raw_lines[current_line][0].strip()
+            ]
+            print(newline)
+            current_line += 1
+
     return
     img_sel_btn_id = "file1"
     name_input_name = "name"

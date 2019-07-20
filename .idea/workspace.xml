@@ -17,8 +17,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/linechatter/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="224" column="29" lean-forward="true" selection-start-line="224" selection-start-column="29" selection-end-line="224" selection-end-column="29" />
+            <state relative-caret-position="105">
+              <caret line="213" column="25" lean-forward="true" selection-start-line="213" selection-start-column="25" selection-end-line="213" selection-end-column="25" />
               <folding>
                 <element signature="e#24#34#0" expanded="true" />
               </folding>
@@ -28,11 +28,6 @@
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/linechatter/resources/script.txt">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/linechatter/constants.py">
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
@@ -280,19 +275,26 @@
       <option name="project" value="LOCAL" />
       <updated>1563605034497</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="While loop catches missed calls, regular messages, and triple hyphens..">
+      <created>1563607985020</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1563607985020</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="50" y="27" width="1390" height="873" extended-state="6" />
+    <frame x="0" y="27" width="1600" height="873" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24981685" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24920736" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32880434" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.43032786" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.4293478" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3989071" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -359,7 +361,8 @@
     <MESSAGE value="Really not using the chrome webdriver. Removing from code." />
     <MESSAGE value="Detection of left person lines is working" />
     <MESSAGE value="Checking in before adding combine --- message." />
-    <option name="LAST_COMMIT_MESSAGE" value="Checking in before adding combine --- message." />
+    <MESSAGE value="While loop catches missed calls, regular messages, and triple hyphens.." />
+    <option name="LAST_COMMIT_MESSAGE" value="While loop catches missed calls, regular messages, and triple hyphens.." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -424,13 +427,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/linechatter/chatout.jpg" />
     <entry file="file://$PROJECT_DIR$/linechatter/resources/profile.jpg" />
-    <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/selenium/webdriver/common/service.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="39">
-          <caret line="76" column="16" selection-start-line="76" selection-start-column="16" selection-end-line="76" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/selenium/webdriver/common/service.py" />
     <entry file="file://$PROJECT_DIR$/linechatter/constants.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -439,8 +436,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/linechatter/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="224" column="29" lean-forward="true" selection-start-line="224" selection-start-column="29" selection-end-line="224" selection-end-column="29" />
+        <state relative-caret-position="105">
+          <caret line="213" column="25" lean-forward="true" selection-start-line="213" selection-start-column="25" selection-end-line="213" selection-end-column="25" />
           <folding>
             <element signature="e#24#34#0" expanded="true" />
           </folding>
