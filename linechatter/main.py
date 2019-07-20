@@ -12,6 +12,9 @@ from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 """
 Where this script is executing from.
@@ -42,9 +45,9 @@ MIDNIGHT = '00:00'
 
 img_sel_btn_id = "file1"
 name_input_name = "name"
-person_sel_xp = '//*[@id="create hidden"]/div/div/div[1]/form[1]/div[1]/select'
+PERSON_SEL_XPATH = '//*[@id="create hidden"]/div/div/div[1]/form[1]/div[1]/select'
 comment_xp = "/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[1]/div[2]/textarea"
-time_xp = "/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[1]/div[7]/input"
+TIME_SEL_XPATH = "/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[1]/div[7]/input"
 
 
 def connect_firefox_webdriver():
@@ -195,6 +198,49 @@ def line_startswith(line, cmpstr):
         return False
 
 
+def select_sender(driver, line):
+
+    if LEFT_PERS in line[0].strip() == True:
+        person_sel = driver.find_element_by_xpath(PERSON_SEL_XPATH)
+        driver.execute_script("arguments[0].style.display = 'block';", person_sel)
+        elem = Select(person_sel)
+        elem.select_by_value('you')
+
+    else:
+        person_sel = driver.find_element_by_xpath(PERSON_SEL_XPATH)
+        driver.execute_script("arguments[0].style.display = 'block';", person_sel)
+        elem = Select(person_sel)
+        elem.select_by_value('me')
+
+
+def set_line_len(raw_msg):
+    msg = ""
+    if len(raw_msg) > 13:
+        msg = insert_every_n(raw_msg)
+    else:
+        msg = raw_msg
+    return msg
+
+
+def set_msg_time(driver, line):
+    actions = ActionChains(driver)
+    get_form_elements_by_xpath(driver, TIME_SEL_XPATH).click()
+    # Set hour
+    hour = int(line[1][:2])
+    set_hours(actions, hour)
+
+    # Move to minutes field.
+    press_tab(actions, 1)
+    minutes = int(line[1][3:5])
+    set_minutes(actions, minutes)
+
+    # Set AM/PM
+    if hour > 12:
+        press_tab(actions, 1)
+        press_down(actions, 1)
+    actions.perform()
+
+
 def main():
     """
     """
@@ -220,6 +266,8 @@ def main():
 
     # The script contains certain codes for special cases.
     while current_line < script_lines:
+        # Magic number to wait for page load without issues.
+        time.sleep(5)
 
         # Check for regular message line
         if is_line_msg(raw_lines[current_line]):
@@ -234,6 +282,8 @@ def main():
                 continue
 
             # Send regular text
+            select_sender(driver, raw_lines[current_line])
+            #set_msg_time(driver, raw_lines[current_line][1])
             current_line += 1
 
         elif line_startswith(raw_lines[current_line], TRIPLE_HYPHEN):
@@ -367,45 +417,9 @@ def main():
     driver.quit()'''
 
 
-def set_line_len(raw_msg):
-    msg = ""
-    if len(raw_msg) > 13:
-        msg = insert_every_n(raw_msg)
-    else:
-        msg = raw_msg
-    return msg
-
-
 def post_msg(comment_xp, driver, msg):
     comment_el = get_form_elements_by_xpath(driver, comment_xp)
     comment_el.send_keys(msg)
-
-
-def set_msg_time(driver, hour, minutes, msg, time_xp):
-    actions = ActionChains(driver)
-    get_form_elements_by_xpath(driver, time_xp).click()
-    # Set hour
-    set_hours(actions, hour)
-    # Move to minutes field.
-    press_tab(actions, 1)
-    set_minutes(actions, minutes)
-    # Set AM/PM
-    if hour > 12:
-        press_tab(actions, 1)
-        press_down(actions, 1)
-    actions.perform()
-
-
-def select_sender(driver, line, person_sel_xp):
-    if line[0] == LEFT_PERS:
-        person_sel = driver.find_element_by_xpath(person_sel_xp)
-        elem = Select(person_sel)
-        elem.select_by_value('you')
-
-    else:
-        person_sel = driver.find_element_by_xpath(person_sel_xp)
-        elem = Select(person_sel)
-        elem.select_by_value('me')
 
 
 if __name__ == "__main__":
