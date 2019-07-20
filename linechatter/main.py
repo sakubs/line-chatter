@@ -242,6 +242,18 @@ def set_msg_time(driver, line):
     actions.perform()
 
 
+def display_missed_call(driver):
+    mc_btn_xpath = '/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[1]/div[5]/div/div[1]/button'
+    get_form_elements_by_xpath(driver, mc_btn_xpath).click()
+    phone_txt_xpath = '/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[1]/div[6]/input'
+    phone_txt = get_form_elements_by_xpath(driver, phone_txt_xpath)
+    phone_txt.send_keys(MISSED_CALL)
+
+
+def message_send(driver):
+    get_form_elements_by_id(driver, "checkimg").click()
+
+
 def main():
     """
     """
@@ -273,17 +285,21 @@ def main():
         # Check for regular message line
         if is_line_msg(raw_lines[current_line]):
             print(raw_lines[current_line])
-
+            print(raw_lines[current_line][2])
             # Look for missed call message
             if MISSED_CALL in raw_lines[current_line][2]:
-                print(MISSED_CALL)
 
                 # Send as a missed call instead of text
+                display_missed_call(driver)
+                message_send(driver)
                 current_line += 1
                 continue
 
             # Send regular text
             send_regular_message(driver, raw_lines[current_line])
+
+            # Click send.
+            message_send(driver)
             current_line += 1
 
         elif line_startswith(raw_lines[current_line], TRIPLE_HYPHEN):
