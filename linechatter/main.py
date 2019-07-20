@@ -283,8 +283,7 @@ def main():
                 continue
 
             # Send regular text
-            select_sender(driver, raw_lines[current_line])
-            set_msg_time(driver, raw_lines[current_line])
+            send_regular_message(driver, raw_lines[current_line])
             current_line += 1
 
         elif line_startswith(raw_lines[current_line], TRIPLE_HYPHEN):
@@ -418,7 +417,14 @@ def main():
     driver.quit()'''
 
 
-def post_msg(comment_xp, driver, msg):
+def send_regular_message(driver, line):
+    select_sender(driver, line)
+    set_msg_time(driver, line)
+    cooked_line = set_line_len(line[2])
+    post_msg(driver, cooked_line)
+
+
+def post_msg(driver, msg):
     comment_el = get_form_elements_by_xpath(driver, comment_xp)
     comment_el.send_keys(msg)
 
