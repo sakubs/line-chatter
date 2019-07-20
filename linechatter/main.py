@@ -223,6 +223,7 @@ def set_line_len(raw_msg):
 
 
 def set_msg_time(driver, line):
+    print(line)
     actions = ActionChains(driver)
     get_form_elements_by_xpath(driver, TIME_SEL_XPATH).click()
     # Set hour
@@ -231,7 +232,7 @@ def set_msg_time(driver, line):
 
     # Move to minutes field.
     press_tab(actions, 1)
-    minutes = int(line[1][3:5])
+    minutes = int(line[1][3:5].strip())
     set_minutes(actions, minutes)
 
     # Set AM/PM
@@ -283,7 +284,7 @@ def main():
 
             # Send regular text
             select_sender(driver, raw_lines[current_line])
-            #set_msg_time(driver, raw_lines[current_line][1])
+            set_msg_time(driver, raw_lines[current_line])
             current_line += 1
 
         elif line_startswith(raw_lines[current_line], TRIPLE_HYPHEN):
