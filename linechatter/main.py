@@ -1,51 +1,28 @@
 # -*- coding: utf-8 -*-
 import os
-import shutil
 import sys
 import time
 
-import urllib3
 from selenium import webdriver
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
-from selenium.webdriver.support.ui import Select
 
+from linechatter.constants import A_LITTLE_LATER
+from linechatter.constants import BASEDIR
+from linechatter.constants import IMG_SEL_BTN_ID
+from linechatter.constants import MIDNIGHT
+from linechatter.constants import MISSED_CALL
+from linechatter.constants import NAME_INPUTBOX_NAME
+from linechatter.constants import RIGHT_PERS
+from linechatter.constants import TRIPLE_HYPHEN
+from linechatter.formio import click_complete
+from linechatter.formio import display_missed_call
+from linechatter.formio import download_chat_image
 from linechatter.formio import fill_linechat_form1
-from linechatter.formio import get_form_elements_by_id
-from linechatter.formio import get_form_elements_by_xpath
-
-"""
-Where this script is executing from.
-"""
-BASEDIR = os.path.abspath(os.path.dirname(__file__))
-
-"""
-A_LITTLE_LATER:
-    Code meaning, combine 'ーーー' with the following line and send as one message
-"""
-A_LITTLE_LATER = '数時間後'
-
-"""
-INSERT_PIC:
-    Code meaning, send a picture message
-"""
-INSERT_PIC = 2
-
-CLOSING = 3
-
-TRIPLE_HYPHEN = "ーーー"
-RIGHT_PERS = 'B'
-LEFT_PERS = 'A'
-SONO_GOU = 'その後'
-MISSED_CALL = '不在着信'
-MIDNIGHT = '00:00'
-
-img_sel_btn_id = "file1"
-name_input_name = "name"
-PERSON_SEL_XPATH = '//*[@id="create hidden"]/div/div/div[1]/form[1]/div[1]/select'
-comment_xp = "/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[1]/div[2]/textarea"
-TIME_SEL_XPATH = "/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[1]/div[7]/input"
+from linechatter.formio import message_send
+from linechatter.formio import send_regular_message
+from linechatter.formio import set_msg_time
+from linechatter.ioformat import is_line_msg
+from linechatter.ioformat import line_startswith
 
 
 def connect_firefox_webdriver():
@@ -59,6 +36,7 @@ def connect_firefox_webdriver():
     print("Firefox Headless Browser Invoked")
     return driver
 
+
 def get_writable_lines(script_fpath):
     with open(script_fpath, "r") as raw:
         chatlines = raw.readlines()
@@ -69,144 +47,6 @@ def get_writable_lines(script_fpath):
         writable_lines.append(cooked)
 
     return writable_lines
-
-
-def press_down(actions, n):
-    actions.send_keys(Keys.ARROW_DOWN * n)
-
-
-def press_up(actions, n):
-    actions.send_keys(Keys.ARROW_UP * n)
-
-
-def press_tab(actions, n):
-    actions.send_keys(Keys.TAB * n)
-
-
-def set_hours(actions, h):
-    if h < 13:
-        press_down(actions, 10 - (h - 12))
-
-    elif h > 10:
-        press_up(actions, h - 10)
-
-    elif h < 9:
-        press_down(actions, 10 - h)
-
-
-def set_minutes(actions, m):
-    press_up(actions, m)
-
-
-def insert_every_n(raw_string, group=13, char='\n'):
-    return char.join(raw_string[i:i+group] for i in range(0, len(raw_string), group))
-
-
-def is_line_msg(line):
-    if line_startswith(line, LEFT_PERS):
-        return True
-    elif line_startswith(line, RIGHT_PERS):
-        return True
-    else:
-        return False
-
-
-def line_startswith(line, cmpstr):
-    if line[0].strip().startswith(cmpstr):
-        return True
-    else:
-        return False
-
-
-def select_sender(driver, line):
-
-    if line[0].strip() == LEFT_PERS:
-        person_sel = driver.find_element_by_xpath(PERSON_SEL_XPATH)
-        driver.execute_script("arguments[0].style.display = 'block';", person_sel)
-        elem = Select(person_sel)
-        elem.select_by_value('you')
-
-    else:
-        person_sel = driver.find_element_by_xpath(PERSON_SEL_XPATH)
-        driver.execute_script("arguments[0].style.display = 'block';", person_sel)
-        elem = Select(person_sel)
-        elem.select_by_value('me')
-
-
-def set_line_len(raw_msg):
-    msg = ""
-    if len(raw_msg) > 13:
-        msg = insert_every_n(raw_msg)
-    else:
-        msg = raw_msg
-    return msg
-
-
-def set_msg_time(driver, line):
-    print(line)
-    actions = ActionChains(driver)
-    get_form_elements_by_xpath(driver, TIME_SEL_XPATH).click()
-    # Set hour
-    hour = int(line[1][:2])
-    set_hours(actions, hour)
-
-    # Move to minutes field.
-    press_tab(actions, 1)
-    minutes = int(line[1][3:5].strip())
-    set_minutes(actions, minutes)
-
-    # Set AM/PM
-    if hour > 12:
-        press_tab(actions, 1)
-        press_down(actions, 1)
-    actions.perform()
-
-
-def display_missed_call(driver):
-    mc_btn_xpath = '/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[1]/div[5]/div/div[1]/button'
-    get_form_elements_by_xpath(driver, mc_btn_xpath).click()
-    phone_txt_xpath = '/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[1]/div[6]/input'
-    phone_txt = get_form_elements_by_xpath(driver, phone_txt_xpath)
-    phone_txt.send_keys(MISSED_CALL)
-    return
-
-
-def message_send(driver):
-    get_form_elements_by_id(driver, "checkimg").click()
-    return
-
-
-def click_complete(driver):
-    get_form_elements_by_xpath(
-        driver,
-        "/html/body/section/div/div/div[2]/div/div[2]/div/div/div/div[1]/form[2]/button").click()
-    return
-
-
-def download_chat_image(driver):
-    final_img = driver.find_element_by_xpath('//*[@id="saveimg"]')
-    src = final_img.get_attribute('src')
-    http = urllib3.PoolManager()
-    with http.request('GET', src, preload_content=False) as r, open('chatout.jpg', 'wb') as out_file:
-        shutil.copyfileobj(r, out_file)
-
-
-def send_regular_message(driver, line):
-    # Uncheck auto line lengthbox
-    get_form_elements_by_xpath(
-        driver,
-        '//*[@id="create hidden"]/div/div/div[1]/form[1]/div[9]/div/div/label/input').click()
-    select_sender(driver, line)
-    set_msg_time(driver, line)
-    msg = set_line_len(line[2].strip())
-    post_msg(driver, msg)
-    return
-
-
-def post_msg(driver, msg):
-    comment_el = get_form_elements_by_xpath(driver, comment_xp)
-    comment_el.send_keys(msg)
-    return
 
 
 def main():
@@ -224,7 +64,7 @@ def main():
 
     # Load firefox and fill out chat start form.
     driver = connect_firefox_webdriver()
-    fill_linechat_form1(driver, start_url, img_sel_btn_id, avatar_img_path, name_input_name, friend_name)
+    fill_linechat_form1(driver, start_url, IMG_SEL_BTN_ID, avatar_img_path, NAME_INPUTBOX_NAME, friend_name)
 
     # Read the script
     script_fpath = os.path.join(BASEDIR, "resources/script.txt")
