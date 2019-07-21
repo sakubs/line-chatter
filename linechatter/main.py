@@ -11,6 +11,10 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.support.ui import Select
 
+from linechatter.formio import fill_linechat_form1
+from linechatter.formio import get_form_elements_by_id
+from linechatter.formio import get_form_elements_by_xpath
+
 """
 Where this script is executing from.
 """
@@ -27,7 +31,6 @@ INSERT_PIC:
     Code meaning, send a picture message
 """
 INSERT_PIC = 2
-
 
 CLOSING = 3
 
@@ -55,65 +58,6 @@ def connect_firefox_webdriver():
     driver = webdriver.Firefox(options=options)
     print("Firefox Headless Browser Invoked")
     return driver
-
-
-def get_form_elements_by_id(driver, elemid):
-    """
-    Wrapper for find_element_by_id function from webdriver.
-    :param driver:
-    :param elemid:
-    :return: if found, it returns the element object.
-    """
-    elem = driver.find_element_by_id(elemid)
-    return elem
-
-
-def get_form_elements_by_name(driver, elemname):
-    """
-    Wrapper for find_element_by_name function from webdriver.
-
-    :param driver:
-    :param elemname:
-    :return: if found, it returns the element object.
-    """
-    elem = driver.find_element_by_name(elemname)
-    return elem
-
-
-def get_form_elements_by_xpath(driver, elemxpath):
-    """
-    Wrapper for find_element_by_xpath function from webdriver.
-    :param driver:
-    :param elemxpath:
-    :return: if found, it returns the element object.
-    """
-    elem = driver.find_element_by_xpath(elemxpath)
-    return elem
-
-
-def fill_linechat_form1(driver, start_url, img_sel_btn_id, avatar_img_path, name_input_name, friend_name):
-    driver.get(start_url)
-
-    # First need to select the avatar for the user.
-    select = get_form_elements_by_id(driver, img_sel_btn_id)
-
-    # Un-hide the file upload button before we can use it
-    driver.execute_script("arguments[0].style.display = 'block';", select)
-
-    # Now we can send it our avatar
-    select.send_keys(avatar_img_path)
-
-    # Next we have to enter a name.
-    name_input = get_form_elements_by_name(driver, name_input_name)
-    driver.execute_script("arguments[0].style.display = 'block';", name_input)
-    name_input.send_keys(friend_name)
-
-    # Next we have to select a round image avatar.
-    get_form_elements_by_xpath(driver, '/html/body/section/div/div[2]/div/div/div/form/div[2]/div/label[2]').click()
-
-    # And finally, submit
-    get_form_elements_by_xpath(driver, '//*[@id="checkimg"]').click()
-
 
 def get_writable_lines(script_fpath):
     with open(script_fpath, "r") as raw:
@@ -156,25 +100,6 @@ def set_minutes(actions, m):
 
 def insert_every_n(raw_string, group=13, char='\n'):
     return char.join(raw_string[i:i+group] for i in range(0, len(raw_string), group))
-
-
-def check_input_codes(input_line):
-    """
-    Checks for codes in the input
-
-    :param msg:
-    :return:
-        - 0 for no codes
-        - A_LITTLE_LATER
-    """
-    # if the length is not three, we know it is not a typical input
-    if len(input_line) < 3:
-        if str(input_line[0]) == TRIPLE_HYPHEN:
-            return A_LITTLE_LATER
-        elif str(input_line[0]) == SONO_GOU:
-            return 0
-    else:
-        return 0
 
 
 def is_line_msg(line):

@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="18534e4f-0336-415a-a074-578cdcc0a05d" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/linechatter/formio.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/linechatter/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/linechatter/main.py" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.idea/shelf/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -13,14 +15,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/linechatter/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="795">
-              <caret line="359" column="47" selection-start-line="359" selection-start-column="47" selection-end-line="359" selection-end-column="47" />
+            <state relative-caret-position="192">
+              <caret line="173" column="27" selection-start-line="173" selection-start-column="4" selection-end-line="173" selection-end-column="27" />
               <folding>
                 <element signature="e#24#33#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/linechatter/formio.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="165">
+              <caret line="11" selection-start-line="11" selection-end-line="11" />
             </state>
           </provider>
         </entry>
@@ -40,6 +51,9 @@
       <find>mai</find>
       <find>print</find>
       <find>select_sender</find>
+      <find>A_LITTLE_LATER</find>
+      <find>get_form_elements_by_id</find>
+      <find>get_form_elements_by_name</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -59,7 +73,9 @@
         <option value="$PROJECT_DIR$/linechatter/resources/script-orig.txt" />
         <option value="$PROJECT_DIR$/linechatter/constants.py" />
         <option value="$PROJECT_DIR$/linechatter/resources/script.txt" />
+        <option value="$PROJECT_DIR$/linechatter/fileman.py" />
         <option value="$PROJECT_DIR$/linechatter/main.py" />
+        <option value="$PROJECT_DIR$/linechatter/formio.py" />
       </list>
     </option>
   </component>
@@ -93,13 +109,6 @@
               <item name="linechatter" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="line-chatter" type="b2602c69:ProjectViewProjectNode" />
-              <item name="line-chatter" type="462c0819:PsiDirectoryNode" />
-              <item name="linechatter" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="義母" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -110,6 +119,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/linechatter/resources" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -311,7 +321,14 @@
       <option name="project" value="LOCAL" />
       <updated>1563624963188</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Everything is tested and working.">
+      <created>1563630638997</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1563630638997</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -455,7 +472,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/linechatter/chatout.jpg" />
     <entry file="file://$PROJECT_DIR$/linechatter/resources/profile.jpg" />
     <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/selenium/webdriver/common/service.py" />
     <entry file="file://$PROJECT_DIR$/linechatter/constants.py">
@@ -475,16 +491,33 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/linechatter/chatout.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/linechatter/resources/script.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="454">
+          <caret line="88" column="16" lean-forward="true" selection-start-line="88" selection-start-column="16" selection-end-line="88" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/linechatter/fileman.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/linechatter/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="795">
-          <caret line="359" column="47" selection-start-line="359" selection-start-column="47" selection-end-line="359" selection-end-column="47" />
+        <state relative-caret-position="192">
+          <caret line="173" column="27" selection-start-line="173" selection-start-column="4" selection-end-line="173" selection-end-column="27" />
           <folding>
             <element signature="e#24#33#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/linechatter/formio.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
         </state>
       </provider>
     </entry>
