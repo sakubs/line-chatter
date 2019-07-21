@@ -9,6 +9,18 @@ def get_form_elements_by_id(driver, elemid):
     return elem
 
 
+def get_form_elements_by_name(driver, elemname):
+    """
+    Wrapper for find_element_by_name function from webdriver.
+
+    :param driver:
+    :param elemname:
+    :return: if found, it returns the element object.
+    """
+    elem = driver.find_element_by_name(elemname)
+    return elem
+
+
 def get_form_elements_by_xpath(driver, elemxpath):
     """
     Wrapper for find_element_by_xpath function from webdriver.
