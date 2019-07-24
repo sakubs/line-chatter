@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="18534e4f-0336-415a-a074-578cdcc0a05d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/linechatter/ioformat.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/line-chatter.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/line-chatter.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/linechatter/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/linechatter/constants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/linechatter/formio.py" beforeDir="false" afterPath="$PROJECT_DIR$/linechatter/formio.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/linechatter/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/linechatter/main.py" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.idea/shelf/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,11 +15,29 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/linechatter/main.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="255">
               <caret line="17" column="48" selection-start-line="17" selection-start-column="48" selection-end-line="17" selection-end-column="48" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Pipfile.lock">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="105">
+              <caret line="7" column="35" lean-forward="true" selection-start-line="7" selection-start-column="35" selection-end-line="7" selection-end-column="35" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Pipfile">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="135">
+              <caret line="9" column="10" lean-forward="true" selection-start-line="9" selection-start-column="10" selection-end-line="9" selection-end-column="10" />
             </state>
           </provider>
         </entry>
@@ -82,6 +98,28 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="line-chatter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="line-chatter" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="line-chatter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="line-chatter" type="462c0819:PsiDirectoryNode" />
+              <item name="linechatter" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="line-chatter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="line-chatter" type="462c0819:PsiDirectoryNode" />
+              <item name="linechatter" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="Scope">
         <subPane subId="Scope 'Default Changelist'; set:Default Changelist; class com.intellij.packageDependencies.ChangeListScope">
           <expand>
@@ -107,28 +145,6 @@
               <item name="line-chatter" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
               <item name="~/Dev/PyCharm/line-chatter" type="442cc68d:ScopeViewTreeModel$RootNode" />
               <item name="linechatter" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="line-chatter" type="b2602c69:ProjectViewProjectNode" />
-              <item name="line-chatter" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="line-chatter" type="b2602c69:ProjectViewProjectNode" />
-              <item name="line-chatter" type="462c0819:PsiDirectoryNode" />
-              <item name="linechatter" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="line-chatter" type="b2602c69:ProjectViewProjectNode" />
-              <item name="line-chatter" type="462c0819:PsiDirectoryNode" />
-              <item name="linechatter" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -378,20 +394,19 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="27" width="1600" height="873" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24920736" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32880434" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.2228261" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.2228261" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3980978" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32880434" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32744566" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32880434" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.32880434" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.32880434" />
       <window_info anchor="bottom" id="Messages" order="11" />
@@ -538,9 +553,7 @@
     <entry file="file://$PROJECT_DIR$/linechatter/chatout.jpg">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/linechatter/fileman.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/linechatter/fileman.py" />
     <entry file="file://$PROJECT_DIR$/linechatter/constants.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="368">
@@ -572,6 +585,20 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="17" column="48" selection-start-line="17" selection-start-column="48" selection-end-line="17" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Pipfile.lock">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="35" lean-forward="true" selection-start-line="7" selection-start-column="35" selection-end-line="7" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Pipfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="10" lean-forward="true" selection-start-line="9" selection-start-column="10" selection-end-line="9" selection-end-column="10" />
         </state>
       </provider>
     </entry>
